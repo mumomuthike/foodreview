@@ -3,89 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recipe Site Skeleton</title>
-
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;700&family=Rock+Salt&family=Ultra&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css" />
+  <title>Breaking Bread</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <header>
-    <h1>Breaking Bread</h1>
-    <p>Subtitle or tagline here</p>
+    <h1>🍞 Breaking Bread</h1>
+    <p>Explore simple recipes from around the world — pure HTML & CSS</p>
   </header>
 
+  <!-- CSS-only Category Filters (default: all ON) -->
+  <section class="filters">
+    <!-- inputs must be BEFORE main to use the ~ selector -->
+    <input type="checkbox" id="cat-american" checked />
+    <label for="cat-american" class="chip">American</label>
+
+    <input type="checkbox" id="cat-indian" checked />
+    <label for="cat-indian" class="chip">Indian</label>
+
+    <input type="checkbox" id="cat-chinese" checked />
+    <label for="cat-chinese" class="chip">Chinese</label>
+
+    <span class="hint">Tip: tap chips to show/hide categories</span>
+  </section>
+
   <main>
-    <!-- Filter Buttons -->
-    <section class="filters">
-      <label><input type="checkbox" /> Option 1</label>
-      <label><input type="checkbox" /> Option 2</label>
-      <label><input type="checkbox" /> Option 3</label>
-    </section>
+    <section class="card-container">
 
-    <!-- The Recipe Cards -->
-    <section class="cards">
-      <!-- Card 1 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="card-front">
-            <!-- TODO: Add card front content (image, title, etc.) -->
-          </div>
-          <div class="card-back">
-            <!-- TODO: Add card back content (details, link, etc.) -->
+      <!-- American -->
+      <article class="card" data-cat="american" tabindex="0" aria-label="French Toast card">
+        <div class="front"><h2>French Toast</h2></div>
+        <div class="back">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>2 eggs</li><li>½ cup milk</li><li>4 bread slices</li>
+          </ul>
+          <ol class="steps">
+            <li>Whisk eggs & milk</li>
+            <li>Dip bread</li>
+            <li>Cook till golden</li>
+          </ol>
+          <h4>Nutrition (est.)</h4>
+          <div class="nutri">
+            <div class="bar protein" style="--val:60%"><span>Protein</span></div>
+            <div class="bar carbs"   style="--val:70%"><span>Carbs</span></div>
+            <div class="bar fat"     style="--val:35%"><span>Fat</span></div>
           </div>
         </div>
       </article>
 
-      <!-- Card 2 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="card-front">
-            <!--  Add card front content -->
-          </div>
-          <div class="card-back">
-            <!--  Add card back content -->
+      <article class="card" data-cat="american" tabindex="0" aria-label="Garlic Bread card">
+        <div class="front"><h2>Garlic Bread</h2></div>
+        <div class="back">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>Loaf bread</li><li>Butter</li><li>Garlic & parsley</li>
+          </ul>
+          <ol class="steps">
+            <li>Mix garlic-butter</li>
+            <li>Spread on slices</li>
+            <li>Bake 10 min @ 350°F</li>
+          </ol>
+          <h4>Nutrition (est.)</h4>
+          <div class="nutri">
+            <div class="bar protein" style="--val:20%"><span>Protein</span></div>
+            <div class="bar carbs"   style="--val:65%"><span>Carbs</span></div>
+            <div class="bar fat"     style="--val:55%"><span>Fat</span></div>
           </div>
         </div>
       </article>
 
-      <!-- Card 3 -->
-      <article class="card">
-        <div class="card-inner">
-          <div class="card-front">
-            <!--  Add card front content -->
-          </div>
-          <div class="card-back">
-            <!-- Add the back of card ontent -->
+      <!-- Indian -->
+      <article class="card" data-cat="indian" tabindex="0" aria-label="Butter Chicken card">
+        <div class="front"><h2>Butter Chicken</h2></div>
+        <div class="back">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>Chicken pieces</li><li>Tomato puree</li><li>Cream & spices</li>
+          </ul>
+          <ol class="steps">
+            <li>Marinate & grill</li>
+            <li>Simmer in sauce</li>
+            <li>Finish with butter</li>
+          </ol>
+          <h4>Nutrition (est.)</h4>
+          <div class="nutri">
+            <div class="bar protein" style="--val:70%"><span>Protein</span></div>
+            <div class="bar carbs"   style="--val:20%"><span>Carbs</span></div>
+            <div class="bar fat"     style="--val:60%"><span>Fat</span></div>
           </div>
         </div>
       </article>
-    </section>
 
-    <!-- Recipe Detail Section -->
-    <section class="recipe-detail">
-      <div class="ingredients">
-        <!-- Add an ingredient checklist structure -->
-      </div>
-      <div class="steps">
-        <!-- Add Step-by-step instructions -->
-      </div>
-      <div class="nutrition">
-        <!-- Animate the nutrition bars -->
-      </div>
-      <div class="gallery">
-        <!-- Add an image gallery grid -->
-      </div>
+      <article class="card" data-cat="indian" tabindex="0" aria-label="Paneer Tikka card">
+        <div class="front"><h2>Paneer Tikka</h2></div>
+        <div class="back">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>Paneer cubes</li><li>Yogurt & spices</li><li>Bell peppers</li>
+          </ul>
+          <ol class="steps">
+            <li>Marinate paneer</li>
+            <li>Skewer with peppers</li>
+            <li>Grill or air-fry</li>
+          </ol>
+          <h4>Nutrition (est.)</h4>
+          <div class="nutri">
+            <div class="bar protein" style="--val:55%"><span>Protein</span></div>
+            <div class="bar carbs"   style="--val:25%"><span>Carbs</span></div>
+            <div class="bar fat"     style="--val:40%"><span>Fat</span></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Chinese -->
+      <article class="card" data-cat="chinese" tabindex="0" aria-label="Fried Rice card">
+        <div class="front"><h2>Fried Rice</h2></div>
+        <div class="back">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>Cooked rice</li><li>Mixed veggies</li><li>Soy sauce</li>
+          </ul>
+          <ol class="steps">
+            <li>Stir-fry veggies</li>
+            <li>Add rice & soy</li>
+            <li>Toss & serve</li>
+          </ol>
+          <h4>Nutrition (est.)</h4>
+          <div class="nutri">
+            <div class="bar protein" style="--val:25%"><span>Protein</span></div>
+            <div class="bar carbs"   style="--val:75%"><span>Carbs</span></div>
+            <div class="bar fat"     style="--val:20%"><span>Fat</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-cat="chinese" tabindex="0" aria-label="Chow Mein card">
+        <div class="front"><h2>Chow Mein</h2></div>
+        <div class="back">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>Noodles</li><li>Capsicum & carrot</li><li>Garlic soy sauce</li>
+          </ul>
+          <ol class="steps">
+            <li>Boil noodles</li>
+            <li>Stir-fry veggies</li>
+            <li>Toss with sauce</li>
+          </ol>
+          <h4>Nutrition (est.)</h4>
+          <div class="nutri">
+            <div class="bar protein" style="--val:30%"><span>Protein</span></div>
+            <div class="bar carbs"   style="--val:70%"><span>Carbs</span></div>
+            <div class="bar fat"     style="--val:25%"><span>Fat</span></div>
+          </div>
+        </div>
+      </article>
+
     </section>
   </main>
 
   <footer>
-    <p>Footer content here</p>
+    <p>Made with ❤️ by Mumo & Mohsin</p>
   </footer>
 </body>
-
 </html>

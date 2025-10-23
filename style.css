@@ -1,163 +1,222 @@
-:root {
-    --white: #ffffff;
-    --black: #000000;
-    --red: #e63946;
-    --orange: #ff6b35;
-    --gray: #e5e5e5;
+/* ===========================
+   Theme & tokens
+=========================== */
+:root{
+    --brand:#f56a4d;
+    --ink:#1f1f1f;
+    --paper:rgba(255,255,255,0.78); /* translucent glass */
+    --paper-solid:#ffffff;
+    --chip-on:#ffffff;
+    --chip-off:#ffd8cb;
+    --bg1:#ffedd5;  /* gradient colors */
+    --bg2:#ffe1d8;
+    --bg3:#ffd1ba;
+    --bg4:#ffbfa3;
+  
+    --protein:#8cc084;
+    --carbs:#5aa9e6;
+    --fat:#f4a261;
   }
   
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: var(--ink);
+    margin:0; text-align:center;
+  
+    /* Animated gradient background */
+    background: linear-gradient(270deg, var(--bg1), var(--bg2), var(--bg3), var(--bg4));
+    background-size: 800% 800%;
+    animation: gradientShift 14s ease infinite;
   }
   
-  body {
-    background-color: var(--white);
-    color: var(--black);
-    font-family: "Noto Sans", sans-serif;
-    line-height: 1.5;
+  /* Prefer reduced motion: stop background animation */
+  @media (prefers-reduced-motion: reduce){
+    body{ animation: none; }
   }
   
-  /* Headings */
-  h1 {
-    font-family: "Ultra", serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--black);
+  @keyframes gradientShift{
+    0%{   background-position: 0% 50%; }
+    50%{  background-position:100% 50%; }
+    100%{ background-position: 0% 50%; }
   }
   
-  p {
-    font-family: "Rock Salt", cursive;
-    color: var(--orange);
+  /* ===========================
+     Header
+  =========================== */
+  header{
+    background: color-mix(in oklab, var(--brand) 85%, #ffffff 15%);
+    color:#fff;
+    padding: 1.6rem 0 1.1rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,.12);
+    backdrop-filter: blur(10px);
+  }
+  h1{ margin:.1rem 0 .35rem; letter-spacing:.3px; }
+  header p{ margin:0; opacity:.95; }
+  
+  /* ===========================
+     Filter chips (CSS-only)
+  =========================== */
+  .filters{
+    display:flex; flex-wrap:wrap; gap:.55rem .65rem;
+    justify-content:center; align-items:center;
+    padding: 1rem 1rem .4rem;
+  }
+  .filters input[type="checkbox"]{ display:none; }
+  
+  .chip{
+    display:inline-block;
+    padding:.5rem .9rem;
+    border:2px solid var(--brand);
+    border-radius:999px;
+    font-weight:700;
+    background: var(--chip-on);
+    color:#2b2b2b;
+    cursor:pointer;
+    user-select:none;
+    transition: transform .12s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+  .chip:hover{ transform: translateY(-1px); box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+  
+  #cat-american:not(:checked) + .chip,
+  #cat-indian:not(:checked)   + .chip,
+  #cat-chinese:not(:checked)  + .chip{
+    background: var(--chip-off);
+    color:#7a2e1f;
   }
   
-  /* --------------------------------------
-     LAYOUT
-  -------------------------------------- */
-  header, footer {
-    text-align: center;
-    padding: 2rem 1rem;
-    border-bottom: 1px solid var(--black);
+  .hint{ font-size:.85rem; opacity:.75; margin-left:.25rem; }
+  
+  /* Filtering behavior (no JS) */
+  #cat-american:not(:checked) ~ main .card[data-cat="american"]{ display:none; }
+  #cat-indian:not(:checked)   ~ main .card[data-cat="indian"]{   display:none; }
+  #cat-chinese:not(:checked)  ~ main .card[data-cat="chinese"]{  display:none; }
+  
+  /* ===========================
+     Card grid
+  =========================== */
+  .card-container{
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap:26px; padding: 36px 20px 44px;
+    max-width:1200px; margin: 0 auto;
   }
   
-  footer {
-    border-top: 1px solid var(--black);
-    border-bottom: none;
-    color: var(--red);
+  /* Glassmorphism card with flip */
+  .card{
+    background:transparent;
+    width:270px; height:270px;
+    perspective:1000px;
+    position:relative; cursor:pointer;
+    border-radius:16px; /* for outer hover glow */
+    transition: box-shadow .25s ease, transform .2s ease;
   }
-  
-  /* Filters */
-  .filters {
-    text-align: center;
-    margin: 2rem 0;
-  }
-  .filters label {
-    margin: 0 1rem;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  .filters input {
-    accent-color: var(--red);
-  }
-  
-  /* --------------------------------------
-    The Card Container
-  -------------------------------------- */
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
-    justify-items: center;
-  }
-  
-  /* --------------------------------------
-     CARD FLIP STRUCTURE
-  -------------------------------------- */
-  .card {
-    perspective: 1000px;
-    width: 250px;
-    height: 300px;
-    border-radius: 12px;
-    position: relative;
-  }
-  
-  .card-inner {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform-style: preserve-3d;
-    transition: transform 0.6s ease;
-  
-    /* TODO: Adjust animation timing / easing here */
-  }
-  
-  .card:hover .card-inner {
-    transform: rotateY(180deg);
-    /* TODO: Optional hover flip animation */
-  }
-  
-  /* Front & Back */
-  .card-front,
-  .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--black);
-    border-radius: 12px;
+  .card .front,.card .back{
+    position:absolute; inset:0;
+    border:2px solid color-mix(in oklab, var(--brand) 80%, #fff 20%);
+    border-radius:16px;
+    background: var(--paper);
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: 0 10px 24px rgba(0,0,0,.10);
     backface-visibility: hidden;
+    transition: transform .65s;
   }
   
-  /* Front face */
-  .card-front {
-    background-color: var(--white);
-    /* TODO: Add image / gradient / overlay animation */
+  /* Front */
+  .front{
+    display:flex; align-items:center; justify-content:center;
+    color: var(--brand); font-weight:800; font-size:1.2rem; padding:1rem;
   }
   
-  /* Back face */
-  .card-back {
-    background-color: var(--red);
-    color: var(--white);
+  /* Back */
+  .back{
     transform: rotateY(180deg);
-    /* TODO: Add hover glow or fade-in animation */
+    padding: 1rem 1rem 1.1rem;
+    text-align:left; font-size:.95rem; line-height:1.35;
+    color:#1f1f1f;
   }
   
-  /* --------------------------------------
-     RECIPE DETAIL SKELETON
-  -------------------------------------- */
-  .recipe-detail {
-    border-top: 2px solid var(--orange);
-    margin: 2rem;
-    padding: 2rem;
-    min-height: 200px;
+  /* Flip interactions */
+  .card:hover .front{ transform: rotateY(180deg); }
+  .card:hover .back { transform: rotateY(360deg); }
   
-    /* TODO: Add fade-in or slide animation for section entry */
+  .card:focus .front, .card:focus-within .front{ transform: rotateY(180deg); outline:none; }
+  .card:focus .back,  .card:focus-within .back { transform: rotateY(360deg); }
+  
+  /* Hover glow & lift */
+  .card:hover, .card:focus{
+    box-shadow:
+      0 0 25px rgba(245,106,77,0.55),
+      0 18px 38px rgba(0,0,0,.18);
+    transform: translateY(-2px);
   }
   
-  .ingredients,
-  .steps,
-  .nutrition,
-  .gallery {
-    border: 1px dashed var(--black);
-    margin-bottom: 1rem;
-    height: 100px;
+  /* ===========================
+     Lists & typography
+  =========================== */
+  ul{ margin:.3rem 0 .5rem 1.1rem; }
+  .steps{ margin:.4rem 0 .6rem 1.1rem; }
+  .steps li{ margin:.15rem 0; }
+  h3{ margin:.2rem 0 .3rem; font-size:1rem; }
+  h4{ margin:.55rem 0 .35rem; font-size:.95rem; }
   
-    /* TODO: Add opacity/translate animation for reveal */
+  /* ===========================
+     Nutrition bars
+  =========================== */
+  .nutri{
+    display:grid; gap:.48rem;
+    margin-top:.4rem;
+  }
+  .bar{
+    position:relative; height:10px; border-radius:999px; overflow:hidden;
+    background: #ffd9cc; /* track */
+  }
+  .bar span{
+    position:absolute; left:0; top:-1.45rem; font-size:.8rem; font-weight:700;
+    color:#3a3a3a;
+  }
+  .bar::after{
+    content:""; position:absolute; inset:0 auto 0 0; width:0;
+    background: var(--brand);
+    border-radius:999px;
+    animation: grow 1.1s ease forwards;
+  }
+  .bar.protein::after{ background: var(--protein); }
+  .bar.carbs::after{   background: var(--carbs); }
+  .bar.fat::after{     background: var(--fat); }
+  
+  /* Animate to percentage defined by --val */
+  @keyframes grow { to { width: var(--val); } }
+  
+  /* Only animate when card is active (hover/focus) */
+  .bar::after{ animation-play-state: paused; }
+  .card:hover .bar::after,
+  .card:focus .bar::after{ animation-play-state: running; }
+  
+  /* Reduced motion: show final width without animation */
+  @media (prefers-reduced-motion: reduce){
+    .card .front, .card .back{ transition: none; }
+    .bar::after{ animation: none; width: var(--val); }
   }
   
-  /* --------------------------------------
-     INTERACTIVE STATES
-  -------------------------------------- */
-  a, button {
-    color: var(--red);
-    text-decoration: none;
-    font-weight: 600;
+  /* ===========================
+     Footer
+  =========================== */
+  footer{
+    background: color-mix(in oklab, var(--brand) 85%, #ffffff 15%);
+    color:#fff;
+    padding: 1rem 0; margin-top: 8px;
+    backdrop-filter: blur(10px);
   }
   
-  a:hover, button:hover {
-    color: var(--orange);
-    transition: color 0.3s ease;
-    /* TODO: Add glow, underline, or motion effect */
+  /* ===========================
+     Responsive
+  =========================== */
+  @media (max-width: 760px){
+    .card{ width:100%; max-width:360px; height:270px; }
+    .card-container{ gap:18px; padding: 22px 16px 30px; }
+    .filters{ padding:.9rem .8rem .25rem; }
   }
   
